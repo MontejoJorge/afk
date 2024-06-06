@@ -31,7 +31,7 @@ launch4j {
    outputDir = 'out'
    mainClassName = 'afk.App'
    outfile = 'AFK.exe'
-   icon projectDir.path + '/app/afk.ico'
+   icon = './afk.ico'
 }
 
 task printVersion {
