@@ -31,7 +31,7 @@ launch4j {
    outputDir = 'out'
    mainClassName = 'afk.App'
    outfile = 'AFK.exe'
-   icon = projectDir.path + './afk.ico'
+   icon = projectDir.path + '/afk.ico'
    bundledJrePath = '%JAVA_HOME%'
 }
 
