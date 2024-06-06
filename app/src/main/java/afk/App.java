@@ -37,9 +37,8 @@ public class App {
             try {
                 robot = new Robot();
                 robot.mouseMove(x, y + 100);
-                Thread.sleep(1000);
                 robot.mouseMove(x, y);
-            } catch (AWTException | InterruptedException ex) {
+            } catch (AWTException ex) {
                 Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             }
         };
