@@ -4,7 +4,18 @@
  */
 package afk;
 
+import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -17,7 +28,7 @@ public class Window extends javax.swing.JFrame {
     /**
      * Creates new form Window
      */
-    public Window() {
+    public Window() throws AWTException {
 
         App app = new App();
         this.app = app;
@@ -26,6 +37,35 @@ public class Window extends javax.swing.JFrame {
         statusLabel.setText("disabled");
         statusLabel.setForeground(Color.red);
         timeSlider.setValue(5);
+        
+        //System tray
+        if (SystemTray.isSupported()) {
+            closeOnSystemTrayCheckbox.setSelected(true);
+            this.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+            
+            URL trayIconUrl = this.getClass().getResource("/afk16.png");
+            Image trayIcon = new ImageIcon(trayIconUrl).getImage();
+
+            SystemTray systemTray = SystemTray.getSystemTray();
+            TrayIcon traylcon = new TrayIcon(trayIcon);
+
+            MenuItem show = new MenuItem("Show");
+            show.addActionListener((ActionEvent e) -> {
+                this.setVisible(true);
+            });
+
+            MenuItem close = new MenuItem("Exit");
+            close.addActionListener((ActionEvent e) -> {
+                System.exit(0);
+            });
+
+            PopupMenu trayMenu = new PopupMenu();
+            trayMenu.add(show);
+            trayMenu.add(close);
+
+            traylcon.setPopupMenu(trayMenu);
+            systemTray.add(traylcon);
+        }
     }
 
     /**
@@ -46,6 +86,7 @@ public class Window extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         timeSlider = new javax.swing.JSlider();
         timeLabel = new javax.swing.JLabel();
+        closeOnSystemTrayCheckbox = new javax.swing.JCheckBox();
 
         jFormattedTextField1.setText("jFormattedTextField1");
 
@@ -89,29 +130,40 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
+        closeOnSystemTrayCheckbox.setText("Close on system tray");
+        closeOnSystemTrayCheckbox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                closeOnSystemTrayCheckboxStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(12, 12, 12)
-                        .addComponent(statusLabel))
-                    .addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(timeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(closeOnSystemTrayCheckbox)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(12, 12, 12)
+                                .addComponent(statusLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(enableBtn)
+                                .addGap(27, 27, 27)
+                                .addComponent(disableBtn))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel3))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(8, 8, 8)
-                        .addComponent(timeLabel)
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(enableBtn)
-                        .addGap(27, 27, 27)
-                        .addComponent(disableBtn)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                        .addGap(117, 117, 117)
+                        .addComponent(timeLabel)))
+                .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,7 +183,9 @@ public class Window extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(enableBtn)
                     .addComponent(disableBtn))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closeOnSystemTrayCheckbox)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -158,6 +212,14 @@ public class Window extends javax.swing.JFrame {
     private void timeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_timeSliderStateChanged
         timeLabel.setText(String.valueOf(timeSlider.getValue()));
     }//GEN-LAST:event_timeSliderStateChanged
+
+    private void closeOnSystemTrayCheckboxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_closeOnSystemTrayCheckboxStateChanged
+        if (closeOnSystemTrayCheckbox.isSelected()) {
+            this.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        } else {
+            this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        }
+    }//GEN-LAST:event_closeOnSystemTrayCheckboxStateChanged
 
     /**
      * @param args the command line arguments
@@ -189,12 +251,17 @@ public class Window extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Window().setVisible(true);
+                try {
+                    new Window().setVisible(true);
+                } catch (AWTException ex) {
+                    Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox closeOnSystemTrayCheckbox;
     private javax.swing.JButton disableBtn;
     private javax.swing.JButton enableBtn;
     private javax.swing.JFormattedTextField jFormattedTextField1;

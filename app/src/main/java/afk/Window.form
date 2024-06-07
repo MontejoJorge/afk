@@ -32,28 +32,35 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="2" attributes="0">
-                  <Group type="102" alignment="2" attributes="0">
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="12" pref="12" max="12" attributes="0"/>
-                      <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="2" attributes="0">
+                          <Component id="timeSlider" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="closeOnSystemTrayCheckbox" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="2" attributes="0">
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="12" pref="12" max="12" attributes="0"/>
+                              <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="2" attributes="0">
+                              <Component id="enableBtn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="27" pref="27" max="27" attributes="0"/>
+                              <Component id="disableBtn" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="2" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="15" pref="15" max="15" attributes="0"/>
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <Component id="timeSlider" alignment="2" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="2" attributes="0">
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="8" pref="8" max="8" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="117" pref="117" max="-2" attributes="0"/>
                       <Component id="timeLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="7" pref="7" max="7" attributes="0"/>
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="2" attributes="0">
-                      <Component id="enableBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="27" pref="27" max="27" attributes="0"/>
-                      <Component id="disableBtn" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="24" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -78,7 +85,9 @@
                   <Component id="enableBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="disableBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="43" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="closeOnSystemTrayCheckbox" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -137,6 +146,14 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="timeLabel">
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="closeOnSystemTrayCheckbox">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Close on system tray"/>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="closeOnSystemTrayCheckboxStateChanged"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
