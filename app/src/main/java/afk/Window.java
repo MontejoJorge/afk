@@ -36,7 +36,7 @@ public class Window extends javax.swing.JFrame {
         initComponents();
         statusLabel.setText("disabled");
         statusLabel.setForeground(Color.red);
-        timeSlider.setValue(5);
+        timeSlider.setValue(3);
         
         //System tray
         if (SystemTray.isSupported()) {
@@ -122,7 +122,7 @@ public class Window extends javax.swing.JFrame {
 
         jLabel3.setText("minutes");
 
-        timeSlider.setMaximum(15);
+        timeSlider.setMaximum(5);
         timeSlider.setMinimum(1);
         timeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
