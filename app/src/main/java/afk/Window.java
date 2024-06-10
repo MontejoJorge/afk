@@ -4,6 +4,7 @@
  */
 package afk;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Image;
@@ -32,6 +33,8 @@ public class Window extends javax.swing.JFrame {
 
         App app = new App();
         this.app = app;
+        
+        FlatLightLaf.setup();
 
         initComponents();
         statusLabel.setText("disabled");
@@ -91,6 +94,7 @@ public class Window extends javax.swing.JFrame {
         jFormattedTextField1.setText("jFormattedTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AFK");
         setResizable(false);
 
         statusLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
