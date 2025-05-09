@@ -7,6 +7,7 @@
 
 plugins {
    id 'java'
+   id 'application'
    id 'edu.sc.seis.launch4j' version '3.0.5'
    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
@@ -18,6 +19,10 @@ repositories {
 dependencies {
    implementation libs.guava
    implementation 'com.formdev:flatlaf:3.4.1'
+}
+
+application {
+   mainClass.set('afk.App')
 }
 
 project.buildDir = '../build'
