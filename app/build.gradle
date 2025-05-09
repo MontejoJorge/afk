@@ -8,34 +8,42 @@
 plugins {
    id 'java'
    id 'edu.sc.seis.launch4j' version '3.0.5'
+   id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 repositories {
-   // Use Maven Central for resolving dependencies.
    mavenCentral()
 }
 
 dependencies {
-   // This dependency is used by the application.
    implementation libs.guava
-
    implementation 'com.formdev:flatlaf:3.4.1'
 }
 
 project.buildDir = '../build'
+
+shadowJar {
+   archiveBaseName.set('miaplicacion-all')
+   archiveClassifier.set('')
+   archiveVersion.set('')
+   manifest {
+      attributes 'Main-Class': 'afk.App'
+   }
+}
 
 launch4j {
    outputDir = 'out'
    mainClassName = 'afk.App'
    outfile = 'AFK.exe'
    icon = projectDir.path + '/afk.ico'
-   bundledJrePath = System.getenv('JAVA_HOME') + '/jre'
-   dontWrapJar = false
+   bundledJrePath = '%JAVA_HOME%'
+   headerType = 'gui'
+   copyConfigurable = []
+   jarTask = project.tasks.shadowJar
+}
 
-   classpath = files(
-      "$buildDir/libs/AFK-1.0.0.jar",
-      "$projectDir/lib/*"
-   )
+tasks.named('createExe') {
+   dependsOn tasks.named('shadowJar')
 }
 
 task printVersion {
