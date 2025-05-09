@@ -29,7 +29,13 @@ launch4j {
    mainClassName = 'afk.App'
    outfile = 'AFK.exe'
    icon = projectDir.path + '/afk.ico'
-   bundledJrePath = '%JAVA_HOME%'
+   bundledJrePath = System.getenv('JAVA_HOME') + '/jre'
+   dontWrapJar = false
+
+   classpath = files(
+      "$buildDir/libs/AFK-1.0.0.jar",
+      "$projectDir/lib/*"
+   )
 }
 
 task printVersion {
