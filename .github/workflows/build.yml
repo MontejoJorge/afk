@@ -21,11 +21,6 @@ jobs:
         run: |
           choco install wixtoolset --no-progress -y
 
-      - name: Get version
-        id: get_version
-        run: |
-          cmd /c "FOR /F \"tokens=*\" %i IN ('gradlew -q printVersion') DO @SET VERSION=%i && echo version=%VERSION% >> %GITHUB_ENV%"
-
       - name: Build with Gradle
         run: .\gradlew clean build jpackage
 
