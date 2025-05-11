@@ -24,8 +24,7 @@ jobs:
       - name: Get version
         id: get_version
         run: |
-          FOR /F "tokens=*" %%i IN ('gradlew -q printVersion') DO @SET VERSION=%%i
-          echo version=%VERSION% >> $GITHUB_ENV
+          cmd /c "FOR /F \"tokens=*\" %i IN ('gradlew -q printVersion') DO @SET VERSION=%i && echo version=%VERSION% >> %GITHUB_ENV%"
 
       - name: Build with Gradle
         run: .\gradlew clean build jpackage
