@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -19,20 +19,19 @@ jobs:
 
       - name: Install WiX Toolset
         run: |
-          sudo apt-get update
-          sudo apt-get install -y wixl
+          choco install wixtoolset --no-progress -y
 
       - name: Get version
         id: get_version
         run: |
-          VERSION=$(./gradlew -q printVersion)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          FOR /F "tokens=*" %%i IN ('gradlew -q printVersion') DO @SET VERSION=%%i
+          echo version=%VERSION% >> $GITHUB_ENV
 
       - name: Build with Gradle
-        run: ./gradlew clean build jpackage
+        run: .\gradlew clean build jpackage
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: exe
-          path: ./build/jpackage/*.exe
+          path: build/jpackage/*.exe
