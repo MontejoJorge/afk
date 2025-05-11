@@ -1,9 +1,20 @@
-name: Build and Release
+name: Build and optionally Release
+
 on:
   workflow_dispatch:
+    inputs:
+      release:
+        description: '¿Crear release de GitHub?'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 jobs:
   create-tag:
+    if: ${{ github.event.inputs.release == 'true' }}
     runs-on: ubuntu-latest
     outputs:
       tagname: ${{ steps.get_version.outputs.tagname }}
@@ -23,29 +34,36 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-      
-    - name: Build with Gradle
-      run: ./gradlew createExe
+      - uses: actions/checkout@v3
 
-    - name: Upload exe
-      uses: actions/upload-artifact@master
-      with:
-        name: exe
-        path: ./build/out/*.exe
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Get version
+        id: get_version
+        run: |
+          VERSION=$(./gradlew -q printVersion)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build with Gradle
+        run: ./gradlew createExe
+
+      - name: Upload exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: exe
+          path: ./build/out/*.exe
 
   publish-release:
+    if: ${{ github.event.inputs.release == 'true' }}
     runs-on: ubuntu-latest
     needs: [create-tag, build]
-    outputs:
-      id: ${{ steps.create_release.outputs.id }}
     steps:
       - name: Download EXE
         uses: actions/download-artifact@v4
@@ -54,7 +72,6 @@ jobs:
           path: out
 
       - name: Create release
-        id: create_release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

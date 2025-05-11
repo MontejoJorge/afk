@@ -8,8 +8,8 @@
 plugins {
    id 'java'
    id 'application'
-   id 'edu.sc.seis.launch4j' version '3.0.5'
    id 'com.github.johnrengelman.shadow' version '7.1.2'
+   id 'org.panteleyev.jpackageplugin' version '1.6.1'
 }
 
 repositories {
@@ -28,7 +28,7 @@ application {
 project.buildDir = '../build'
 
 shadowJar {
-   archiveBaseName.set('miaplicacion-all')
+   archiveBaseName.set('AFK')
    archiveClassifier.set('')
    archiveVersion.set('')
    manifest {
@@ -36,19 +36,22 @@ shadowJar {
    }
 }
 
-launch4j {
-   outputDir = 'out'
-   mainClassName = 'afk.App'
-   outfile = 'AFK.exe'
-   icon = projectDir.path + '/afk.ico'
-   bundledJrePath = '%JAVA_HOME%'
-   headerType = 'gui'
-   copyConfigurable = []
-   jarTask = project.tasks.shadowJar
+jpackage {
+   vendor = 'MontejoJorge'
+   appName = 'AFK'
+   destination = file("$buildDir/jpackage")
+   input = file("$buildDir/libs")
+   mainJar = 'AFK.jar'
+   mainClass = 'afk.App'
+   type = 'EXE'
+   icon = file("$projectDir/afk.ico")
+   winShortcut = true
+   winMenu = true
+   winDirChooser = true
 }
 
-tasks.named('createExe') {
-   dependsOn tasks.named('shadowJar')
+tasks.named('jar').configure {
+   enabled = false
 }
 
 task printVersion {
