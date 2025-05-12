@@ -48,6 +48,7 @@ jpackage {
    winShortcut = true
    winMenu = true
    winDirChooser = true
+   winPerUserInstall = true
 }
 
 tasks.named('jar').configure {
